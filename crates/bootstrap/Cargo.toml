@@ -1,27 +1,10 @@
 [package]
 name = "bootstrap"
 version = "0.1.0"
-edition = "2021"
-
-[lib]
-path = "src/lib.rs"
-
-[features]
-default = []
-http = ["adapters/inbound-http"]
-kafka = ["adapters/inbound-kafka"]
+edition = "2024"
 
 [dependencies]
+application = { path = "../application" }
 adapters = { path = "../adapters" }
 observability = { path = "../observability" }
-
-[[bin]]
-name = "http"
-path = "bin/http.rs"
-required-features = ["http"]
-
-[[bin]]
-name = "kafka"
-path = "bin/kafka.rs"
-required-features = ["kafka"]
-
+contracts-kafka = { path = "../contracts-kafka" }

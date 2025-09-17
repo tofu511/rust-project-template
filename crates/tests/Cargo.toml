@@ -1,14 +1,12 @@
 [package]
 name = "tests"
 version = "0.1.0"
-edition = "2021"
+edition = "2024"
 
-[lib]
-path = "src/lib.rs"
-
-[dev-dependencies]
+[dependencies]
+application = { path = "../application" }
+adapters = { path = "../adapters" }
 domain = { path = "../domain" }
 ports = { path = "../ports" }
-application = { path = "../application" }
 observability = { path = "../observability" }
-
+contracts-kafka = { path = "../contracts-kafka" }
