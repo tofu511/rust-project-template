@@ -1,0 +1,13 @@
+[workspace]
+members = [
+  "crates/domain",
+  "crates/ports",
+  "crates/application",
+  "crates/adapters",
+  "crates/contracts-kafka",
+  "crates/observability",
+  "crates/bootstrap",
+  "crates/tests",
+]
+resolver = "2"
+
