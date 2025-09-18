@@ -6,9 +6,9 @@ version = 4
 name = "adapters"
 version = "0.1.0"
 dependencies = [
+ "common",
  "contracts-kafka",
  "domain",
- "observability",
  "ports",
 ]
 
@@ -16,8 +16,8 @@ dependencies = [
 name = "application"
 version = "0.1.0"
 dependencies = [
+ "common",
  "domain",
- "observability",
  "ports",
 ]
 
@@ -27,9 +27,13 @@ version = "0.1.0"
 dependencies = [
  "adapters",
  "application",
+ "common",
  "contracts-kafka",
- "observability",
 ]
+
+[[package]]
+name = "common"
+version = "0.1.0"
 
 [[package]]
 name = "contracts-kafka"
@@ -37,10 +41,6 @@ version = "0.1.0"
 
 [[package]]
 name = "domain"
-version = "0.1.0"
-
-[[package]]
-name = "observability"
 version = "0.1.0"
 
 [[package]]
@@ -56,8 +56,8 @@ version = "0.1.0"
 dependencies = [
  "adapters",
  "application",
+ "common",
  "contracts-kafka",
  "domain",
- "observability",
  "ports",
 ]

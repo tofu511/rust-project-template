@@ -6,4 +6,4 @@ edition = "2024"
 [dependencies]
 domain = { path = "../domain" }
 ports = { path = "../ports" }
-observability = { path = "../observability" }
+common = { path = "../common" }

@@ -8,5 +8,5 @@ application = { path = "../application" }
 adapters = { path = "../adapters" }
 domain = { path = "../domain" }
 ports = { path = "../ports" }
-observability = { path = "../observability" }
+common = { path = "../common" }
 contracts-kafka = { path = "../contracts-kafka" }

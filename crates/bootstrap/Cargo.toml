@@ -6,5 +6,5 @@ edition = "2024"
 [dependencies]
 application = { path = "../application" }
 adapters = { path = "../adapters" }
-observability = { path = "../observability" }
+common = { path = "../common" }
 contracts-kafka = { path = "../contracts-kafka" }
