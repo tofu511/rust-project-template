@@ -13,3 +13,5 @@ resolver = "2"
 [workspace.dependencies]
 # Unified version and defaults for web server/framework
 actix-web = { version = "4", default-features = false }
+uuid = { version = "1", default-features = false }
+chrono = { version = "0.4", default-features = false, features = ["std", "clock"] }

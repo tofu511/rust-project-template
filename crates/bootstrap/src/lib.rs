@@ -10,4 +10,3 @@ pub fn server(addr: &str) -> std::io::Result<actix_web::dev::Server> {
 
     Ok(srv)
 }
-

@@ -14,7 +14,7 @@ async fn health() -> impl Responder {
 #[cfg(test)]
 mod tests {
     use super::configure;
-    use actix_web::{http::StatusCode, test, App};
+    use actix_web::{App, http::StatusCode, test};
 
     #[actix_web::test]
     async fn get_health_returns_ok() {

@@ -1,4 +1,3 @@
-
 /// HTTP server bootstrap.
 ///
 /// Uses adapters' HTTP routes and starts an Actix Web server.
