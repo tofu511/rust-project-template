@@ -9,7 +9,6 @@ dependencies = [
  "common",
  "contracts-kafka",
  "domain",
- "ports",
 ]
 
 [[package]]
@@ -18,7 +17,6 @@ version = "0.1.0"
 dependencies = [
  "common",
  "domain",
- "ports",
 ]
 
 [[package]]
@@ -44,13 +42,6 @@ name = "domain"
 version = "0.1.0"
 
 [[package]]
-name = "ports"
-version = "0.1.0"
-dependencies = [
- "domain",
-]
-
-[[package]]
 name = "tests"
 version = "0.1.0"
 dependencies = [
@@ -59,5 +50,4 @@ dependencies = [
  "common",
  "contracts-kafka",
  "domain",
- "ports",
 ]

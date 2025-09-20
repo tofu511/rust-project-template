@@ -5,6 +5,5 @@ edition = "2024"
 
 [dependencies]
 domain = { path = "../domain" }
-ports = { path = "../ports" }
 common = { path = "../common" }
 contracts-kafka = { path = "../contracts-kafka" }

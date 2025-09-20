@@ -7,6 +7,5 @@ edition = "2024"
 application = { path = "../application" }
 adapters = { path = "../adapters" }
 domain = { path = "../domain" }
-ports = { path = "../ports" }
 common = { path = "../common" }
 contracts-kafka = { path = "../contracts-kafka" }

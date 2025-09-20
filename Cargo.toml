@@ -1,7 +1,6 @@
 [workspace]
 members = [
   "crates/domain",
-  "crates/ports",
   "crates/application",
   "crates/adapters",
   "crates/contracts-kafka",
