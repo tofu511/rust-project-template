@@ -7,3 +7,4 @@ edition = "2024"
 domain = { path = "../domain" }
 common = { path = "../common" }
 contracts-kafka = { path = "../contracts-kafka" }
+actix-web = { workspace = true, features = ["macros"] }

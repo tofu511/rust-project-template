@@ -9,3 +9,7 @@ members = [
   "crates/tests",
 ]
 resolver = "2"
+
+[workspace.dependencies]
+# Unified version and defaults for web server/framework
+actix-web = { version = "4", default-features = false }
