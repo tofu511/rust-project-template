@@ -3,7 +3,7 @@
 ## Project Structure & Module Organization
 - Repo root: `Cargo.toml` defines the Cargo workspace (resolver = "2").
 - `crates/domain` — Core domain model and logic. Dependencies: none.
-- `crates/application` — Use-case orchestration. Depends on: domain, common.
+- `crates/application` — Use-case orchestration. Depends on: domain, common, adapters.
 - `crates/adapters` — Inbound/outbound adapters. Depends on: domain, common, contracts-kafka.
 - `crates/contracts-kafka` — Messaging contracts. Dependencies: none.
 - `crates/common` — Shared utilities (e.g., observability). Dependencies: none.
@@ -14,7 +14,7 @@ Note: File-level layouts evolve over time. This guide enforces crate-level bound
 
 - Layering rules (crate boundaries):
   - domain → none
-  - application → domain, common
+  - application → domain, common, adapters
   - adapters → domain, common, contracts-kafka
   - bootstrap → application, adapters, common, contracts-kafka
   - tests → application, adapters, domain, common, contracts-kafka

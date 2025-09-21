@@ -8,3 +8,10 @@ domain = { path = "../domain" }
 common = { path = "../common" }
 contracts-kafka = { path = "../contracts-kafka" }
 actix-web = { workspace = true, features = ["macros"] }
+rusqlite = { workspace = true }
+mockall = { workspace = true, optional = true }
+
+[features]
+mocking = ["dep:mockall"]
+
+[dev-dependencies]

@@ -1,5 +1,4 @@
 //! User management domain module.
 
 pub mod user;
-
-pub use user::{User, UserId, UserStatus};
+pub use user::{Email, EmailError, FirstName, LastName, NameError, User, UserId, UserStatus};
