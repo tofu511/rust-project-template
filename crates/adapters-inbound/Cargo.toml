@@ -6,6 +6,11 @@ edition = "2024"
 [dependencies]
 domain = { path = "../domain" }
 common = { path = "../common" }
+application ={ path = "../application" }
+adapters-outbound = { path = "../adapters-outbound" }
 contracts-kafka = { path = "../contracts-kafka" }
 actix-web = { workspace = true, features = ["macros"] }
+serde = { workspace = true }
 
+[dev-dependencies]
+serde_json = { workspace = true }
