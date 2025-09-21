@@ -1,13 +1,17 @@
 //! Add-user use case.
 
 use crate::user_management::user_command::UserCommand;
+use adapters::outbound::repository::sqlite::SqliteRepoError;
 #[cfg_attr(test, mockall_double::double)]
 use adapters::outbound::repository::sqlite::SqliteUserRepository;
 use domain::user_management::User;
 
 /// Errors for the add-user use case.
-#[derive(Debug, Clone)]
-pub struct AddUserError(pub String);
+#[derive(Debug, Clone, PartialEq, Eq)]
+pub enum AddUserError {
+    DuplicateEmail,
+    Persist(String),
+}
 
 /// Adds a new user by validating input, constructing the domain entity,
 /// and persisting it via the repository abstraction.
@@ -30,9 +34,10 @@ impl AddUserUseCase {
                 last_name,
             } => {
                 let user = User::new(email, first_name, last_name);
-                self.repo
-                    .create_user(&user)
-                    .map_err(|e| AddUserError(e.to_string()))?;
+                self.repo.create_user(&user).map_err(|e| match e {
+                    SqliteRepoError::DuplicateEmail => AddUserError::DuplicateEmail,
+                    SqliteRepoError::Sql(err) => AddUserError::Persist(err.to_string()),
+                })?;
                 Ok(user)
             }
         }
@@ -44,7 +49,39 @@ impl AddUserUseCase {
 #[cfg(test)]
 mod tests {
     use super::*;
-    // Real DB test can be added in integration tests if desired.
+    #[test]
+    fn add_user_with_double_mock_success() {
+        let mut repo = SqliteUserRepository::default();
+        repo.expect_create_user().returning(|_u| Ok(()));
+
+        let uc = AddUserUseCase::new(repo);
+        let out = uc
+            .execute(UserCommand::Add {
+                email: domain::user_management::Email::parse("carol@example.com").unwrap(),
+                first_name: domain::user_management::FirstName::parse("Carol").unwrap(),
+                last_name: domain::user_management::LastName::parse("Clark").unwrap(),
+            })
+            .expect("should persist via double mock");
+        assert_eq!(out.email.as_str(), "carol@example.com");
+    }
+
+    #[test]
+    fn add_user_with_double_mock_duplicate_maps_error() {
+        let mut repo = SqliteUserRepository::default();
+        repo
+            .expect_create_user()
+            .returning(|_u| Err(SqliteRepoError::DuplicateEmail));
+
+        let uc = AddUserUseCase::new(repo);
+        let err = uc
+            .execute(UserCommand::Add {
+                email: domain::user_management::Email::parse("dana@example.com").unwrap(),
+                first_name: domain::user_management::FirstName::parse("Dana").unwrap(),
+                last_name: domain::user_management::LastName::parse("Doe").unwrap(),
+            })
+            .expect_err("should map duplicate error");
+        assert_eq!(err, AddUserError::DuplicateEmail);
+    }
 
     #[test]
     fn add_user_with_double_mock() {

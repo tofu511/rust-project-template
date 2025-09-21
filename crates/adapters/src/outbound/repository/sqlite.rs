@@ -1,5 +1,6 @@
 use domain::user_management::{User, UserStatus};
-use rusqlite::{Connection, Result as SqlResult, params};
+use rusqlite::{params, Connection, Error as SqlError, ErrorCode, Result as SqlResult};
+use thiserror::Error;
 
 /// SQLite-backed repository for persisting users.
 pub struct SqliteUserRepository {
@@ -40,7 +41,7 @@ impl SqliteUserRepository {
     }
 
     /// Persists a newly created user.
-    pub fn create_user(&self, user: &User) -> SqlResult<()> {
+    pub fn create_user(&self, user: &User) -> Result<(), SqliteRepoError> {
         // Ensure timestamps are sensible (defensive in case callers modify values).
         let created_at = user.created_at.to_rfc3339();
         let updated_at = user.updated_at.to_rfc3339();
@@ -59,14 +60,40 @@ impl SqliteUserRepository {
                 created_at,
                 updated_at,
             ],
-        )?;
-        Ok(())
+        )
+        .map(|_| ())
+        .map_err(Into::into)
     }
 
     /// Fetches a user count (utility for tests/verification).
     pub fn count_users(&self) -> SqlResult<i64> {
         self.conn
             .query_row("SELECT COUNT(1) FROM users", [], |row| row.get(0))
+    }
+}
+
+/// Adapter-specific repository error.
+#[derive(Debug, Error)]
+pub enum SqliteRepoError {
+    /// Email is duplicated (violates UNIQUE constraint).
+    #[error("duplicate email")]
+    DuplicateEmail,
+    /// Other underlying SQLite error.
+    #[error(transparent)]
+    Sql(SqlError),
+}
+
+impl From<SqlError> for SqliteRepoError {
+    fn from(e: SqlError) -> Self {
+        match &e {
+            SqlError::SqliteFailure(err, _)
+                if err.code == ErrorCode::ConstraintViolation && err.extended_code == 2067 =>
+            {
+                // 2067 == SQLITE_CONSTRAINT_UNIQUE
+                SqliteRepoError::DuplicateEmail
+            }
+            _ => SqliteRepoError::Sql(e),
+        }
     }
 }
 

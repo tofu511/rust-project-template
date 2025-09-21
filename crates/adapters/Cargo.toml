@@ -10,6 +10,7 @@ contracts-kafka = { path = "../contracts-kafka" }
 actix-web = { workspace = true, features = ["macros"] }
 rusqlite = { workspace = true }
 mockall = { workspace = true, optional = true }
+thiserror = { workspace = true }
 
 [features]
 mocking = ["dep:mockall"]
