@@ -3,21 +3,23 @@
 ## Project Structure & Module Organization
 - Repo root: `Cargo.toml` defines the Cargo workspace (resolver = "2").
 - `crates/domain` — Core domain model and logic. Dependencies: none.
-- `crates/application` — Use-case orchestration. Depends on: domain, common, adapters.
-- `crates/adapters` — Inbound/outbound adapters. Depends on: domain, common, contracts-kafka.
+- `crates/application` — Use-case orchestration. Depends on: domain, common, adapters-outbound.
+- `crates/adapters-inbound` — Inbound adapters (e.g., HTTP). Depends on: application, domain, common, contracts-kafka.
+- `crates/adapters-outbound` — Outbound adapters (e.g., DB, publishers). Depends on: domain, common, contracts-kafka.
 - `crates/contracts-kafka` — Messaging contracts. Dependencies: none.
 - `crates/common` — Shared utilities (e.g., observability). Dependencies: none.
-- `crates/bootstrap` — Binaries and composition root. Depends on: application, adapters, common, contracts-kafka.
-- `crates/tests` — Integration tests crate. Depends on: application, adapters, domain, common, contracts-kafka.
+- `crates/bootstrap` — Binaries and composition root. Depends on: application, adapters-inbound, adapters-outbound, common, contracts-kafka.
+- `crates/tests` — Integration tests crate. Depends on: application, adapters-inbound, adapters-outbound, domain, common, contracts-kafka.
 
 Note: File-level layouts evolve over time. This guide enforces crate-level boundaries and dependency rules; file listings are illustrative and not prescriptive.
 
 - Layering rules (crate boundaries):
   - domain → none
-  - application → domain, common, adapters
-  - adapters → domain, common, contracts-kafka
-  - bootstrap → application, adapters, common, contracts-kafka
-  - tests → application, adapters, domain, common, contracts-kafka
+  - application → domain, common, adapters-outbound
+  - adapters-inbound → application, domain, common, contracts-kafka
+  - adapters-outbound → domain, common, contracts-kafka
+  - bootstrap → application, adapters-inbound, adapters-outbound, common, contracts-kafka
+  - tests → application, adapters-inbound, adapters-outbound, domain, common, contracts-kafka
   - No reverse or out-of-graph imports.
 
 ## Build, Test, and Development Commands

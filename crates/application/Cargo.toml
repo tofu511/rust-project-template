@@ -6,9 +6,9 @@ edition = "2024"
 [dependencies]
 domain = { path = "../domain" }
 common = { path = "../common" }
-adapters = { path = "../adapters" }
+adapters-outbound = { path = "../adapters-outbound" }
 
 [dev-dependencies]
 mockall = { workspace = true }
-adapters = { path = "../adapters", features = ["mocking"] }
+adapters-outbound = { path = "../adapters-outbound", features = ["mocking"] }
 mockall_double = "0.3"

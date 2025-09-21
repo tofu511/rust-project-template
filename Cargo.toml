@@ -2,7 +2,8 @@
 members = [
   "crates/domain",
   "crates/application",
-  "crates/adapters",
+  "crates/adapters-inbound",
+  "crates/adapters-outbound",
   "crates/contracts-kafka",
   "crates/common",
   "crates/bootstrap",

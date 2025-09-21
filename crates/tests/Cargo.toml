@@ -5,7 +5,8 @@ edition = "2024"
 
 [dependencies]
 application = { path = "../application" }
-adapters = { path = "../adapters" }
+adapters-inbound = { path = "../adapters-inbound" }
+adapters-outbound = { path = "../adapters-outbound" }
 domain = { path = "../domain" }
 common = { path = "../common" }
 contracts-kafka = { path = "../contracts-kafka" }

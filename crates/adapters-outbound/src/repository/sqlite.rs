@@ -1,5 +1,5 @@
 use domain::user_management::{User, UserStatus};
-use rusqlite::{params, Connection, Error as SqlError, ErrorCode, Result as SqlResult};
+use rusqlite::{Connection, Error as SqlError, ErrorCode, Result as SqlResult, params};
 use thiserror::Error;
 
 /// SQLite-backed repository for persisting users.
@@ -45,24 +45,25 @@ impl SqliteUserRepository {
         // Ensure timestamps are sensible (defensive in case callers modify values).
         let created_at = user.created_at.to_rfc3339();
         let updated_at = user.updated_at.to_rfc3339();
-        self.conn.execute(
-            r#"
+        self.conn
+            .execute(
+                r#"
             INSERT INTO users (
                 user_id, email, first_name, last_name, status, created_at, updated_at
             ) VALUES (?1, ?2, ?3, ?4, ?5, ?6, ?7)
             "#,
-            params![
-                user.user_id.as_bytes(),
-                user.email.as_str(),
-                user.first_name.as_str(),
-                user.last_name.as_str(),
-                status_to_str(user.status),
-                created_at,
-                updated_at,
-            ],
-        )
-        .map(|_| ())
-        .map_err(Into::into)
+                params![
+                    user.user_id.as_bytes(),
+                    user.email.as_str(),
+                    user.first_name.as_str(),
+                    user.last_name.as_str(),
+                    status_to_str(user.status),
+                    created_at,
+                    updated_at,
+                ],
+            )
+            .map(|_| ())
+            .map_err(Into::into)
     }
 
     /// Fetches a user count (utility for tests/verification).

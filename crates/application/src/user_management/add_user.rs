@@ -1,9 +1,9 @@
 //! Add-user use case.
 
 use crate::user_management::user_command::UserCommand;
-use adapters::outbound::repository::sqlite::SqliteRepoError;
+use adapters_outbound::repository::sqlite::SqliteRepoError;
 #[cfg_attr(test, mockall_double::double)]
-use adapters::outbound::repository::sqlite::SqliteUserRepository;
+use adapters_outbound::repository::sqlite::SqliteUserRepository;
 use domain::user_management::User;
 
 /// Errors for the add-user use case.
@@ -68,8 +68,7 @@ mod tests {
     #[test]
     fn add_user_with_double_mock_duplicate_maps_error() {
         let mut repo = SqliteUserRepository::default();
-        repo
-            .expect_create_user()
+        repo.expect_create_user()
             .returning(|_u| Err(SqliteRepoError::DuplicateEmail));
 
         let uc = AddUserUseCase::new(repo);
@@ -89,7 +88,7 @@ mod tests {
 
         // Replace the concrete repository type with a mock for this test scope.
         #[double]
-        use adapters::outbound::repository::sqlite::SqliteUserRepository;
+        use adapters_outbound::repository::sqlite::SqliteUserRepository;
 
         let mut repo = SqliteUserRepository::default();
         repo.expect_create_user().returning(|_u| Ok(()));

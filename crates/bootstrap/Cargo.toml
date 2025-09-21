@@ -5,7 +5,7 @@ edition = "2024"
 
 [dependencies]
 application = { path = "../application" }
-adapters = { path = "../adapters" }
+adapters-inbound = { path = "../adapters-inbound" }
 common = { path = "../common" }
 contracts-kafka = { path = "../contracts-kafka" }
 actix-web = { workspace = true, features = ["macros"] }
